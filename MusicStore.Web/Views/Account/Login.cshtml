@@ -1,0 +1,61 @@
+﻿
+
+<html>
+<head>
+    <link href="~/lib/font-awesome/css/all.min.css" />
+    <style>
+        .tog-password {
+            color: red;
+            
+            margin-left: 20px;
+            cursor: pointer;
+            margin-top: -25px;
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div>
+        <h2>Enter your password</h2>
+        <hr>
+        <div>
+            <input type="password" class="password" placeholder="Password" passwordShown="false">
+            <span> <i class="tog-password fa fa-fw fa-eye-slash"></i> </span>
+            <i class="tog-password fa fa-fw fa-eye-slash"></i>
+            <button type="button" class="togglePassword">Show</button>
+        </div>
+    </div>
+
+    
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.togglePassword').on('click', function () {
+                if ($('.password').attr('passwordShown') == 'false') {
+
+                    $('.password').removeAttr('type');
+                    $('.password').attr('type', 'text');
+
+                    $('.password').removeAttr('passwordShown');
+                    $('.password').attr('passwordShown', 'true');
+
+                    $('.togglePassword').html('Hide');
+
+                } else {
+
+                    $('.password').removeAttr('type');
+                    $('.password').attr('type', 'password');
+
+                    $('.password').removeAttr('passwordShown');
+                    $('.password').attr('passwordShown', 'false');
+
+                    $('.togglePassword').html('Show');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

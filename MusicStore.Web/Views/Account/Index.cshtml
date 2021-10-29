@@ -1,0 +1,146 @@
+﻿@model  MusicStore.Web.Models.UserViewModel
+
+@{
+    ViewData["Title"] = "User-Creation-Form";
+}
+
+<html>
+<head>
+    <style>
+        .field-icon {
+            float: right;
+            margin-left: -25px;
+            cursor: pointer;
+            margin-top: -25px;
+            position: relative;
+            z-index: 2;
+        }
+
+        input::-ms-reveal,
+        input::-ms-clear {
+            display: none;
+        }
+
+        li {
+            list-style: none
+        }
+
+        .hide-password {
+            display: none
+        }
+
+        .tog-password {
+            float: right;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-top: -25px;
+        }
+
+    </style>
+    <link href="~/lib/font-awesome/css/all.css" />
+</head>
+<body>
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+            <div class="col-md-12">
+                <form method="post">
+                    <h1>Create a new User</h1>
+                    @*<div asp-validation-summary="All" class="error text-danger"></div>*@
+                    <div class="form-group col-xl-4">
+                        <label asp-for="@Model.User.FirstName"></label>
+                        <input asp-for="@Model.User.FirstName" class="firstName form-control" />
+                        <span asp-validation-for="@Model.User.FirstName" class="error text-danger" id="firstNameError"></span>
+                    </div>
+
+                    <div class="text-center">
+                        <h2>Show Hide Password</h2>
+                        <label class="label label-success">by adyoi</label>
+                        <hr>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-4">
+                            <div class="form-group">
+                                <label class="control-label" for="password">Password</label>
+                                <input type="password" id="password" class="form-control" value="password">
+                                <i class="tog-password fa fa-fw fa-eye-slash"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <input type="password" class="password" placeholder="Password" passwordShown="false">
+                        <span> <i class="tog-password fa fa-fw fa-eye-slash"></i> </span>
+                        <i class="tog-password fa fa-fw fa-eye-slash"></i>
+                        <button type="button" class="togglePassword">Show</button>
+                    </div>
+
+
+                    <div>
+                        <button type="submit" class="btn-primary fadeIn fourth">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/lib/font-awesome/js/all.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".toggle-password").click(function () {
+                //$("p").hide();
+                //alert("Check");
+
+                $(this).toggleClass("fa-eye fa-eye-slash");
+                var input = $($(this).attr("toggle"));
+                if (input.attr("type") == "password") {
+                    input.attr("type", "text");
+                } else {
+                    $(this).toggleClass("fa-eye fa-eye");
+                    input.attr("type", "password");
+                }
+            });
+
+
+            // Another
+            $(".tog-password").click(function () {
+                $(this).toggleClass("fa-eye fa-eye-slash");
+                input = $(this).parent().find("input");
+                if (input.attr("type") == "password") {
+                    input.attr("type", "text");
+                } else {
+                    input.attr("type", "password");
+                }
+            });
+
+
+
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.togglePassword').on('click', function () {
+                if ($('.password').attr('passwordShown') == 'false') {
+
+                    $('.password').removeAttr('type');
+                    $('.password').attr('type', 'text');
+
+                    $('.password').removeAttr('passwordShown');
+                    $('.password').attr('passwordShown', 'true');
+
+                    $('.togglePassword').html('Hide');
+
+                } else {
+
+                    $('.password').removeAttr('type');
+                    $('.password').attr('type', 'password');
+
+                    $('.password').removeAttr('passwordShown');
+                    $('.password').attr('passwordShown', 'false');
+
+                    $('.togglePassword').html('Show');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

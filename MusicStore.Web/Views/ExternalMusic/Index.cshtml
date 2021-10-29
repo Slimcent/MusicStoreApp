@@ -1,0 +1,102 @@
+﻿@model List<ApiModel>
+
+@{
+    ViewData["Title"] = "External Music Store Page";
+}
+
+<html>
+<head>
+    <title></title>
+</head>
+
+<body>
+    <h5>External Music Link</h5>
+    <div>
+        <h5 class="text-center">All Albums</h5>
+
+        @if (Model.Count() > 0)
+        {
+            <div>
+                
+                <table class="table">
+                    <tr>
+                        <td>Id</td>
+                        <td>Title</td>
+                        <td>User Id</td>
+                        <td>AddInDB</td>
+                    </tr>
+
+                    @foreach (var album in Model)
+                     {
+                <tr>
+                    <td class="price">@album.Id</td>
+                    <td class="title">@album.Title</td>
+                    @if (album.UserId < 4)
+                    {
+                        <td class="genre">Pop</td>
+                    }
+                    else if (album.UserId >= 4 && album.UserId < 8)
+                    {
+                        <td class="genre">Rock</td>
+                    }
+                    else if (album.UserId >= 8)
+                    {
+                        <td class="genre">Jazz</td>
+                    }
+
+                    @if (album.IsDuplcate)
+                    {
+                        <td><a class="btn btn-primary addInDb" href="#" role="button">Existing</a></td>
+                    }
+                    else
+                    {
+                        <td><a class="btn btn-primary addInDb" href="#" role="button">Add</a></td>
+                    }
+                
+
+                </tr>
+                     }
+                </table>
+            </div>
+        }
+        else
+        {
+            <div>
+                <p>Nothing display to display</p>
+            </div>
+        }
+    </div>
+
+
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".addInDb").on("click", function () {
+                //alert("testing");
+
+                var title = parent.siblings("td.title").first().text().trim();
+                var price = parent.siblings(".price").first().text().trim();
+                var genre = parent.siblings(".genre").first().text().trim();
+
+                console.log(title);
+                console.log(price);
+                console.log(genre);
+
+                var parent = $(this).parent();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/ExternalMusic/AjaxTest",
+                    data: { title: title, price: title, genre: genre },
+                    success: function () {
+                        console.log(data);
+                    }
+                });
+            });
+
+            //$(this).closest("tr").remove();
+        });
+    </script>
+</body>
+</html>

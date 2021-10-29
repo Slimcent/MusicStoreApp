@@ -1,0 +1,51 @@
+﻿@model MusicStore.Web.Models.DeleteAlbumViewModel
+
+@{
+    ViewData["Title"] = "Music Store Page";
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+    <div>
+        <div class="text-center">
+            <h4 class="">Create Music Album</h4>
+        </div>
+        <div asp-validation-summary="ModelOnly"></div>
+        <form method="post" asp-action="AlbumDelete">
+            <div class="form-group">
+                <label asp-for="@Model.AlbumViewModel.Album.Id"></label>
+                <input asp-for="@Model.AlbumViewModel.Album.Id" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.AlbumViewModel.Album.Title"></label>
+                <input asp-for="@Model.AlbumViewModel.Album.Title" />
+                <span class="text-danger" asp-validation-for="@Model.AlbumViewModel.Album.Title"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.AlbumViewModel.Album.Genre"></label>
+                <select asp-for="@Model.AlbumViewModel.Album.Genre" asp-items="@Model.AlbumViewModel.AvailableGenres">
+                    <option selected disabled> ---Select--- </option>
+                </select>
+                <span class="text-danger" asp-validation-for="@Model.AlbumViewModel.Album.Genre"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.AlbumViewModel.Album.Price"></label>
+                <input asp-for="@Model.AlbumViewModel.Album.Price" />
+                <span class="text-danger" asp-validation-for="@Model.AlbumViewModel.Album.Price"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.AlbumViewModel.Album.ReleaseDate"></label>
+                <input asp-for="@Model.AlbumViewModel.Album.ReleaseDate" />
+                <span class="text-danger" asp-validation-for="@Model.AlbumViewModel.Album.ReleaseDate"></span>
+            </div>
+
+            <div>
+                <button class="btn btn-outline-primary">Delete</button>
+                <a class="btn btn-outline-danger" asp-action="Index" asp-controller="MusicStore" role="button">Cancel</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
