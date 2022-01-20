@@ -9,38 +9,102 @@
         <h4 class="">Create Music Album</h4>
     </div>
 
-    <form asp-action="Create" asp-controller="MusicStore" method="post">
+    <form>
         <div asp-validation-summary="ModelOnly"></div>
-        
+
         <div class="form-group">
             <label asp-for="@Model.Album.Title"></label>
-            <input asp-for="@Model.Album.Title" />
+            <input asp-for="@Model.Album.Title" class="title" />
             <span class="text-danger" asp-validation-for="@Model.Album.Title"></span>
         </div>
 
         <div class="form-group">
             <label asp-for="@Model.Album.Genre"></label>
-            <select asp-for="@Model.Album.Genre" asp-items="@Model.AvailableGenres">
-                <option selected disabled> ---Select--- </option> 
+            <select asp-for="@Model.Album.Genre" asp-items="@Model.AvailableGenres" class="genre">
+                <option selected disabled> ---Select--- </option>
             </select>
             <span class="text-danger" asp-validation-for="@Model.Album.Genre"></span>
         </div>
 
         <div class="form-group">
             <label asp-for="@Model.Album.Price"></label>
-            <input asp-for="@Model.Album.Price" />
+            <input asp-for="@Model.Album.Price" class="price" />
             <span class="text-danger" asp-validation-for="@Model.Album.Price"></span>
         </div>
 
         <div class="form-group">
             <label asp-for="@Model.Album.ReleaseDate"></label>
-            <input asp-for="@Model.Album.ReleaseDate" />
+            <input asp-for="@Model.Album.ReleaseDate" class="releaseDate" />
             <span class="text-danger" asp-validation-for="@Model.Album.ReleaseDate"></span>
         </div>
 
         <div>
-            <button class="btn btn-primary" type="submit">Create</button>
+            <button class="btn btn-primary Add" type="submit">Create</button>
             <a class="btn btn-danger" asp-action="Index" asp-controller="MusicStore" role="button">Cancel</a>
         </div>
     </form>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".Add").on("click", function (e) {
+                e.preventDefault();
+                //var title = $(".title").val();
+                //var genre = $(".genre").val();
+                //var price = $(".price").val();
+                //var releaseDate = $(".releaseDate").val();
+                //const formData = new FormData();
+                //formData.append("Title", title);
+                //formData.append("Genre", genre);
+                //formData.append("Price", price);
+                //formData.append("ReleaseDate", releaseDate);
+
+                //debugger;
+                /*console.log(formData, "data");*/
+                //alert("okay");
+                const data = {
+                    Title: $(".title").val(),
+                    Genre: $(".genre").val(),
+                    Price: $(".price").val(),
+                    ReleaseDate: $(".releaseDate").val()
+                };
+                const formData = JSON.stringify(data);
+                console.log(formData, "formData")
+
+                //try {
+                //    $.ajax({
+                //        url: "/MusicStore/Create",
+                //        type: "POST",
+                //        dataType: "json",
+                //        contentType: "application/json; charset=utf-8",
+                //        data: formData,
+                //        //data: formData,000
+                //        success: function (data) {
+                //            console.log(data);
+                //        }
+                //    });
+                //} catch (e) {
+                //    console.log(e);
+                //}
+
+                const options = {
+                    method: 'POST',
+                    processData: true,
+                    contentType: 'application/json; charset=utf-8',
+                    body: formData
+                };
+
+                fetch("/MusicStore/Create", options).then(response => response.json()).then(response => {
+                    console.log(response, 'response')
+                })
+            });
+
+        });
+    </script>
+}

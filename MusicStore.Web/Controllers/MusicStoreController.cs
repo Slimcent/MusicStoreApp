@@ -39,14 +39,16 @@ namespace MusicStore.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     await _albumService.Add(model.Album);
-                    return RedirectToAction("Index");
+                    //return RedirectToAction("Index");
+                    return Json(new { success = true });
                 }
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
             }
-            return View(model);
+            //return View(model);
+            return Json(new { success = false });
         }
 
         [HttpGet]
@@ -68,7 +70,7 @@ namespace MusicStore.Web.Controllers
             return View();
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> AlbumDelete(int Id)
         {
             var album = await _albumService.GetAlbumByID(Id);
@@ -86,6 +88,13 @@ namespace MusicStore.Web.Controllers
             return View("SoftDelete", model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Delete(int AlbumId)
+        {            
+            await _albumService.Delete(AlbumId);
+            return View();
+        }
+
         //[HttpPost, ValidateAntiForgeryToken]
         //public async Task<IActionResult> AlbumDelete(DeletedAlbum model)
         //{
@@ -94,7 +103,7 @@ namespace MusicStore.Web.Controllers
         //        if (ModelState.IsValid)
         //        {
         //            await _deleteAlbumService.DeleteAlbum(new DeletedAlbum {Album = model.Album } );
-                    
+
         //            return RedirectToAction("Index");
         //        }
         //    }
@@ -104,6 +113,6 @@ namespace MusicStore.Web.Controllers
         //    }
         //    return View(model);
         //}
-        
+
     }
 }

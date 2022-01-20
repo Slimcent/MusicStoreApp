@@ -13,8 +13,9 @@ namespace Interfaces
         Task<Album> GetAlbumByID(int Id);
         IEnumerable<Album> GetAllAlbums();
         Task<Album> UpdateAlbum(Album album);
-        string DeleteAlbum(int Id);
-        string DeleteAlbum(Album album);
+        Task<string> DeleteAlbum(int Id);
+        Task<string> DeleteAlbum(Album album);
+        Task Delete(int id);
         Task<bool> IsDuplcate(string Title);
     }
 }

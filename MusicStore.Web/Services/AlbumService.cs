@@ -36,7 +36,7 @@ namespace MusicStore.Web.Services
            return await _albumRepo.GetAsync(Id);
         }
 
-        public string DeleteAlbum(int Id)
+        public async Task<string> DeleteAlbum(int Id)
         {
             Album toDelete = (Album)_albumRepo.Find(a => a.Id == Id);
             int deletedItems = 0;
@@ -45,7 +45,7 @@ namespace MusicStore.Web.Services
                 if (toDelete != null)
                 {
                     _albumRepo.Delete(toDelete);
-                    deletedItems = _unitOfWork.Commit();
+                   deletedItems = await _unitOfWork.CommitAsync();
                     if (deletedItems > 0)
                         return string.Format(Resource.SuccessDeleteMessage, toDelete.Id);
                     return Resource.FailDeleteMessage;
@@ -60,12 +60,12 @@ namespace MusicStore.Web.Services
             {
                 return Resource.InternalServerError;
             }
-            return "";
+            return "Deleted";
         }
 
-        public string DeleteAlbum(Album album)
+        public async Task<string> DeleteAlbum(Album album)
         {
-            return DeleteAlbum(album.Id);
+            return await DeleteAlbum(album.Id);
         }
 
         public async Task<Album> UpdateAlbum(Album album)
@@ -92,6 +92,16 @@ namespace MusicStore.Web.Services
 
             return false;
             
+        }
+
+        public async Task Delete(int id)
+        {
+            var album = await _albumRepo.GetAsync(id);
+            if (album != null)
+            {
+                await _albumRepo.DeleteAlbumAsync(album);
+                await _unitOfWork.CommitAsync();
+            }
         }
     }
 }

@@ -29,7 +29,7 @@
         </div>
     </div>
     <div>
-        <a asp-action="Index" asp-controller="ExternalMusic" class="btn btn-primary" role="button">External</a>
+        <a asp-action="Index" asp-controller="ExternalMusic" class="btn btn-primary" role="button">External Api</a>
         <a asp-action="External" asp-controller="ExternalMusic" class="btn btn-primary" role="button">External</a>
     </div>
     <div>
@@ -45,6 +45,7 @@
                         <td>Price</td>
                         <td>Edit</td>
                         <td>Delete</td>
+                        <td>Manual Delete</td>
                     </tr>
 
 
@@ -55,7 +56,8 @@
                             <td>@album.Genre</td>
                             <td>@album.Price</td>
                             <td><a class="btn btn-primary" asp-action="Edit" asp-controller="MusicStore" role="button" asp-route-id="@album.Id">Edit</a></td>
-                            <td><a class="btn btn-danger" asp-action="AlbumDelete" asp-controller="MusicStore" role="button" asp-route-id="@album.Id">Delete Softly</a></td>
+                            <td><a class="btn btn-outline-danger" asp-action="AlbumDelete" asp-controller="MusicStore" role="button" asp-route-id="@album.Id">Delete Softly</a></td>
+                            <td><button class="btn btn-danger delete" asp-action="Delete" asp-controller="MusicStore" role="button" value="@album.Id" >Delete</button></td>
                         </tr>
                     }
                 </table>
@@ -71,10 +73,29 @@
 </div>
 
 <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript">
-            $(documeent).ready(function () {
-                alert("okay");
+
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".delete").on("click", function (e) {
+                e.preventDefault();
+
+                //alert("okay");
+                var albumId = $(this).val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/MusicStore/Delete",
+                    data: { AlbumId: albumId },
+                    success: function (data) {
+                        console.log(data);
+                    }
+                });
             });
-</script>
+
+        });
+    </script>
+}
 
 
